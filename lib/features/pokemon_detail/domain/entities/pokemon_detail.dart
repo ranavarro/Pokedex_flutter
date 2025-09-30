@@ -8,12 +8,18 @@ class PokemonDetail with _$PokemonDetail {
     required int id,
     required String name,
     required String imageUrl,
-    required int height, // In decimetres
-    required int weight, // In hectograms
+    required int height,
+    required int weight,
     required List<String> types,
     required List<Stat> stats,
     required List<String> abilities,
+    required List<String> moves,
   }) = _PokemonDetail;
+
+  // Constructor privado para métodos
+  const PokemonDetail._();
+
+  String get formattedId => '#${id.toString().padLeft(3, '0')}';
 }
 
 @freezed

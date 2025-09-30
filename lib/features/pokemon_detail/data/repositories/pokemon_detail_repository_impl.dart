@@ -14,7 +14,6 @@ class PokemonDetailRepositoryImpl implements PokemonDetailRepository {
       final response = await _dio.get('pokemon/$name');
       final dto = PokemonDetailDto.fromJson(response.data);
 
-      // Mapeo de DTO a Entidad de Dominio
       return PokemonDetail(
         id: dto.id,
         name: dto.name,
@@ -24,6 +23,7 @@ class PokemonDetailRepositoryImpl implements PokemonDetailRepository {
         types: dto.types.map((t) => t.type.name).toList(),
         stats: dto.stats.map((s) => Stat(name: s.stat.name, value: s.baseStat)).toList(),
         abilities: dto.abilities.map((a) => a.ability.name).toList(),
+        moves: dto.moves.map((m) => m.move.name).toList(),
       );
     } on DioException catch (e) {
       throw Exception('Failed to load pokemon detail: $e');

@@ -39,6 +39,7 @@ dependencies:
   # UI Helpers
   shimmer: ^3.0.0
   smooth_page_indicator: ^1.1.0
+  flutter_svg: ^2.0.10+1
 
 
 dev_dependencies:
@@ -59,4 +60,5 @@ flutter:
 
   assets:
     - assets/images/pokeball.png
+    - assets/icons/types/
 

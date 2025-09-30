@@ -18,8 +18,8 @@ class FavoritesScreen extends ConsumerWidget {
         title: Text(l10n.favoritesTitle),
       ),
       body: favoritesAsync.when(
-        data: (favoriteIds) {
-          if (favoriteIds.isEmpty) {
+        data: (favoriteNames) {
+          if (favoriteNames.isEmpty) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -33,23 +33,14 @@ class FavoritesScreen extends ConsumerWidget {
             );
           }
 
-          // Este provider obtiene la lista completa y la filtra.
-          // Para una app con muchísimos Pokémon, se podría optimizar
-          // haciendo llamadas individuales por ID favorito.
           final allPokemonsAsync = ref.watch(pokemonListNotifierProvider);
 
           return allPokemonsAsync.when(
             data: (pokemonListState) {
-              final favoritePokemons = pokemonListState.pokemons.where((p) => favoriteIds.contains(p.id)).toList();
+              final favoritePokemons = pokemonListState.pokemons.where((p) => favoriteNames.contains(p.name)).toList();
 
-              return GridView.builder(
-                padding: const EdgeInsets.all(12),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 0.9,
-                ),
+              return ListView.builder(
+                padding: const EdgeInsets.all(8.0),
                 itemCount: favoritePokemons.length,
                 itemBuilder: (context, index) {
                   return PokemonCard(pokemon: favoritePokemons[index]);

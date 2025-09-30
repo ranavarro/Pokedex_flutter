@@ -19,11 +19,12 @@ mixin _$PokemonDetail {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
-  int get height => throw _privateConstructorUsedError; // In decimetres
-  int get weight => throw _privateConstructorUsedError; // In hectograms
+  int get height => throw _privateConstructorUsedError;
+  int get weight => throw _privateConstructorUsedError;
   List<String> get types => throw _privateConstructorUsedError;
   List<Stat> get stats => throw _privateConstructorUsedError;
   List<String> get abilities => throw _privateConstructorUsedError;
+  List<String> get moves => throw _privateConstructorUsedError;
 
   /// Create a copy of PokemonDetail
   /// with the given fields replaced by the non-null parameter values.
@@ -46,7 +47,8 @@ abstract class $PokemonDetailCopyWith<$Res> {
       int weight,
       List<String> types,
       List<Stat> stats,
-      List<String> abilities});
+      List<String> abilities,
+      List<String> moves});
 }
 
 /// @nodoc
@@ -72,6 +74,7 @@ class _$PokemonDetailCopyWithImpl<$Res, $Val extends PokemonDetail>
     Object? types = null,
     Object? stats = null,
     Object? abilities = null,
+    Object? moves = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -106,6 +109,10 @@ class _$PokemonDetailCopyWithImpl<$Res, $Val extends PokemonDetail>
           ? _value.abilities
           : abilities // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      moves: null == moves
+          ? _value.moves
+          : moves // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -126,7 +133,8 @@ abstract class _$$PokemonDetailImplCopyWith<$Res>
       int weight,
       List<String> types,
       List<Stat> stats,
-      List<String> abilities});
+      List<String> abilities,
+      List<String> moves});
 }
 
 /// @nodoc
@@ -150,6 +158,7 @@ class __$$PokemonDetailImplCopyWithImpl<$Res>
     Object? types = null,
     Object? stats = null,
     Object? abilities = null,
+    Object? moves = null,
   }) {
     return _then(_$PokemonDetailImpl(
       id: null == id
@@ -184,13 +193,17 @@ class __$$PokemonDetailImplCopyWithImpl<$Res>
           ? _value._abilities
           : abilities // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      moves: null == moves
+          ? _value._moves
+          : moves // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
 
 /// @nodoc
 
-class _$PokemonDetailImpl implements _PokemonDetail {
+class _$PokemonDetailImpl extends _PokemonDetail {
   const _$PokemonDetailImpl(
       {required this.id,
       required this.name,
@@ -199,10 +212,13 @@ class _$PokemonDetailImpl implements _PokemonDetail {
       required this.weight,
       required final List<String> types,
       required final List<Stat> stats,
-      required final List<String> abilities})
+      required final List<String> abilities,
+      required final List<String> moves})
       : _types = types,
         _stats = stats,
-        _abilities = abilities;
+        _abilities = abilities,
+        _moves = moves,
+        super._();
 
   @override
   final int id;
@@ -212,12 +228,9 @@ class _$PokemonDetailImpl implements _PokemonDetail {
   final String imageUrl;
   @override
   final int height;
-// In decimetres
   @override
   final int weight;
-// In hectograms
   final List<String> _types;
-// In hectograms
   @override
   List<String> get types {
     if (_types is EqualUnmodifiableListView) return _types;
@@ -241,9 +254,17 @@ class _$PokemonDetailImpl implements _PokemonDetail {
     return EqualUnmodifiableListView(_abilities);
   }
 
+  final List<String> _moves;
+  @override
+  List<String> get moves {
+    if (_moves is EqualUnmodifiableListView) return _moves;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_moves);
+  }
+
   @override
   String toString() {
-    return 'PokemonDetail(id: $id, name: $name, imageUrl: $imageUrl, height: $height, weight: $weight, types: $types, stats: $stats, abilities: $abilities)';
+    return 'PokemonDetail(id: $id, name: $name, imageUrl: $imageUrl, height: $height, weight: $weight, types: $types, stats: $stats, abilities: $abilities, moves: $moves)';
   }
 
   @override
@@ -260,7 +281,8 @@ class _$PokemonDetailImpl implements _PokemonDetail {
             const DeepCollectionEquality().equals(other._types, _types) &&
             const DeepCollectionEquality().equals(other._stats, _stats) &&
             const DeepCollectionEquality()
-                .equals(other._abilities, _abilities));
+                .equals(other._abilities, _abilities) &&
+            const DeepCollectionEquality().equals(other._moves, _moves));
   }
 
   @override
@@ -273,7 +295,8 @@ class _$PokemonDetailImpl implements _PokemonDetail {
       weight,
       const DeepCollectionEquality().hash(_types),
       const DeepCollectionEquality().hash(_stats),
-      const DeepCollectionEquality().hash(_abilities));
+      const DeepCollectionEquality().hash(_abilities),
+      const DeepCollectionEquality().hash(_moves));
 
   /// Create a copy of PokemonDetail
   /// with the given fields replaced by the non-null parameter values.
@@ -284,7 +307,7 @@ class _$PokemonDetailImpl implements _PokemonDetail {
       __$$PokemonDetailImplCopyWithImpl<_$PokemonDetailImpl>(this, _$identity);
 }
 
-abstract class _PokemonDetail implements PokemonDetail {
+abstract class _PokemonDetail extends PokemonDetail {
   const factory _PokemonDetail(
       {required final int id,
       required final String name,
@@ -293,7 +316,9 @@ abstract class _PokemonDetail implements PokemonDetail {
       required final int weight,
       required final List<String> types,
       required final List<Stat> stats,
-      required final List<String> abilities}) = _$PokemonDetailImpl;
+      required final List<String> abilities,
+      required final List<String> moves}) = _$PokemonDetailImpl;
+  const _PokemonDetail._() : super._();
 
   @override
   int get id;
@@ -302,15 +327,17 @@ abstract class _PokemonDetail implements PokemonDetail {
   @override
   String get imageUrl;
   @override
-  int get height; // In decimetres
+  int get height;
   @override
-  int get weight; // In hectograms
+  int get weight;
   @override
   List<String> get types;
   @override
   List<Stat> get stats;
   @override
   List<String> get abilities;
+  @override
+  List<String> get moves;
 
   /// Create a copy of PokemonDetail
   /// with the given fields replaced by the non-null parameter values.

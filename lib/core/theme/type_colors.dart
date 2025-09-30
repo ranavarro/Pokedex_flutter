@@ -25,4 +25,11 @@ class TypeColors {
   static Color getColorForType(String type) {
     return _colorMap[type.toLowerCase()] ?? Colors.grey;
   }
+
+  // Genera un color más claro para el fondo de la tarjeta, como en Figma.
+  static Color getCardColorForType(String type) {
+    final baseColor = _colorMap[type.toLowerCase()] ?? Colors.grey;
+    // Mezcla el color base con blanco para aclararlo
+    return Color.lerp(baseColor, Colors.white, 0.65) ?? baseColor;
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex_app/core/theme/app_colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 class PokemonCardSkeleton extends StatelessWidget {
@@ -7,36 +8,57 @@ class PokemonCardSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade100,
+      baseColor: AppColors.grey_5,
+      highlightColor: AppColors.grey_6,
       child: Card(
-        elevation: 2,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        child: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+        color: AppColors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+        child: SizedBox(
+          height: 120,
+          child: Row(
+            children: [
+              // Esqueleto de la sección de información
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 0, 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(width: 50, height: 14, color: AppColors.white),
+                      const SizedBox(height: 8),
+                      Container(width: 120, height: 20, color: AppColors.white),
+                      const Spacer(),
+                      Row(
+                        children: [
+                          Container(
+                              width: 60,
+                              height: 24,
+                              decoration:
+                                  BoxDecoration(color: AppColors.white, borderRadius: BorderRadius.circular(20))),
+                          const SizedBox(width: 8),
+                          Container(
+                              width: 60,
+                              height: 24,
+                              decoration:
+                                  BoxDecoration(color: AppColors.white, borderRadius: BorderRadius.circular(20))),
+                        ],
+                      )
+                    ],
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-              child: Container(
-                height: 20,
-                width: 100,
+              // Esqueleto de la sección de imagen
+              Container(
+                width: 120,
+                height: 120,
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
+                  color: AppColors.grey_5.withOpacity(0.5),
+                  borderRadius: const BorderRadius.horizontal(right: Radius.circular(15)),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
