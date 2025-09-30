@@ -1,0 +1,28 @@
+{
+  "@@locale": "es",
+  "appName": "Pokédex",
+  "pokemonListTitle": "Pokédex",
+  "favoritesTitle": "Favoritos",
+  "onboardingTitle1": "Todos los Pokémon en un solo lugar",
+  "onboardingSubtitle1": "Accede a un vasto catálogo de Pokémon de todas las generaciones.",
+  "onboardingTitle2": "Encuentra a tu favorito",
+  "onboardingSubtitle2": "Usa la búsqueda y los filtros para encontrar al Pokémon que buscas.",
+  "onboardingTitle3": "Descubre sus habilidades",
+  "onboardingSubtitle3": "Conoce las estadísticas, movimientos y evoluciones de cada Pokémon.",
+  "getStarted": "Comenzar",
+  "height": "Altura",
+  "weight": "Peso",
+  "stats": "Estadísticas Base",
+  "abilities": "Habilidades",
+  "moves": "Movimientos",
+  "evolutions": "Evoluciones",
+  "hp": "HP",
+  "attack": "Ataque",
+  "defense": "Defensa",
+  "specialAttack": "At. Esp.",
+  "specialDefense": "Def. Esp.",
+  "speed": "Velocidad",
+  "noFavorites": "Aún no hay favoritos",
+  "noFavoritesHint": "Añade pokémons a tus favoritos para verlos aquí."
+}
+
