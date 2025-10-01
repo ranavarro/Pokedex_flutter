@@ -32,4 +32,9 @@ class TypeColors {
     // Mezcla el color base con blanco para aclararlo
     return Color.lerp(baseColor, Colors.white, 0.65) ?? baseColor;
   }
+
+  // Devuelve una lista con todos los nombres de los tipos de Pokémon.
+  static List<String> getTypeNames() {
+    return _colorMap.keys.toList();
+  }
 }

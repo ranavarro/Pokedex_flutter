@@ -1,30 +1,32 @@
 import 'dart:async';
 
-import 'package:pokedex_app/features/pokemon_list/domain/entities/pokemon.dart';
+import 'package:pokedex_app/features/pokemon_detail/domain/entities/pokemon_detail.dart';
+import 'package:pokedex_app/features/pokemon_detail/presentation/providers/pokemon_detail_provider.dart';
 import 'package:pokedex_app/features/pokemon_list/presentation/providers/pokemon_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'pokemon_list_notifier.g.dart';
 
+// El estado ahora contendrá una lista de PokemonDetail
 class PokemonListState {
-  final List<Pokemon> pokemons;
-  final bool isLoading;
+  final List<PokemonDetail> pokemons;
+  final bool isLoadingNextPage;
   final bool hasReachedMax;
 
   PokemonListState({
     this.pokemons = const [],
-    this.isLoading = false,
+    this.isLoadingNextPage = false,
     this.hasReachedMax = false,
   });
 
   PokemonListState copyWith({
-    List<Pokemon>? pokemons,
-    bool? isLoading,
+    List<PokemonDetail>? pokemons,
+    bool? isLoadingNextPage,
     bool? hasReachedMax,
   }) {
     return PokemonListState(
       pokemons: pokemons ?? this.pokemons,
-      isLoading: isLoading ?? this.isLoading,
+      isLoadingNextPage: isLoadingNextPage ?? this.isLoadingNextPage,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
     );
   }
@@ -33,33 +35,50 @@ class PokemonListState {
 @riverpod
 class PokemonListNotifier extends _$PokemonListNotifier {
   int _page = 0;
+  // Para evitar llamadas múltiples mientras se carga una página
+  bool _isFetching = false;
 
   @override
-  FutureOr<PokemonListState> build() async {
-    state = const AsyncValue.loading();
-    final pokemons = await _fetchPokemons(page: 0);
-    return PokemonListState(pokemons: pokemons);
+  FutureOr<PokemonListState> build() {
+    _isFetching = true;
+    // La carga inicial ahora devuelve un PokemonListState
+    return _fetchAndHydratePokemons(page: 0).then((pokemons) {
+      _isFetching = false;
+      return PokemonListState(pokemons: pokemons);
+    });
   }
 
-  Future<List<Pokemon>> _fetchPokemons({required int page}) {
-    return ref.read(pokemonRepositoryProvider).getPokemons(offset: page * 20, limit: 20);
+  Future<List<PokemonDetail>> _fetchAndHydratePokemons({required int page}) async {
+    final basicPokemonList = await ref.read(pokemonRepositoryProvider).getPokemons(offset: page * 20, limit: 20);
+    if (basicPokemonList.isEmpty) {
+      return [];
+    }
+    // "Hidratamos" la lista obteniendo los detalles de cada Pokémon
+    final hydratedList = await Future.wait(
+      basicPokemonList.map(
+        (p) => ref.read(pokemonDetailProvider(p.name).future),
+      ),
+    );
+    return hydratedList;
   }
 
   Future<void> fetchNextPage() async {
-    // Evita múltiples llamadas si ya está cargando
-    if (state.value?.isLoading ?? true) return;
+    // Si ya está cargando o no hay más páginas, no hacemos nada
+    if (_isFetching || (state.value?.hasReachedMax ?? false)) return;
 
-    state = AsyncData(state.value!.copyWith(isLoading: true));
+    _isFetching = true;
+    state = AsyncData(state.value!.copyWith(isLoadingNextPage: true));
     _page++;
 
-    final newPokemons = await _fetchPokemons(page: _page);
+    final newPokemons = await _fetchAndHydratePokemons(page: _page);
 
     state = AsyncData(
       state.value!.copyWith(
         pokemons: [...state.value!.pokemons, ...newPokemons],
-        isLoading: false,
+        isLoadingNextPage: false,
         hasReachedMax: newPokemons.isEmpty,
       ),
     );
+    _isFetching = false;
   }
 }

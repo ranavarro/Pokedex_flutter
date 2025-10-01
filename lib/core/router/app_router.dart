@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedex_app/features/home/presentation/screens/home_screen.dart';
+import 'package:pokedex_app/features/pokemon_detail/domain/entities/pokemon_detail.dart';
 import 'package:pokedex_app/features/pokemon_detail/presentation/screens/pokemon_detail_screen.dart';
 import 'package:pokedex_app/features/pokemon_favorites/presentation/screens/favorites_screen.dart';
 import 'package:pokedex_app/features/pokemon_list/presentation/screens/pokemon_list_screen.dart';
@@ -34,26 +35,22 @@ GoRouter appRouter(AppRouterRef ref) {
         },
         routes: [
           GoRoute(
-            path: '/pokedex',
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: PokemonListScreen(),
-            ),
-            routes: [
-              GoRoute(
-                path: 'pokemon/:name',
-                name: 'pokemon-detail',
-                parentNavigatorKey: _rootNavigatorKey,
-                builder: (context, state) {
-                  final pokemonName = state.pathParameters['name']!;
-                  final pokemonId = state.uri.queryParameters['id']!;
-                  return PokemonDetailScreen(
-                    pokemonName: pokemonName,
-                    pokemonId: pokemonId,
-                  );
-                },
-              ),
-            ],
-          ),
+              path: '/pokedex',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                    child: PokemonListScreen(),
+                  ),
+              routes: [
+                GoRoute(
+                  path: 'pokemon/:name',
+                  name: 'pokemon-detail',
+                  parentNavigatorKey: _rootNavigatorKey,
+                  builder: (context, state) {
+                    // Recibimos el objeto PokemonDetail completo desde el parámetro 'extra'
+                    final pokemon = state.extra as PokemonDetail;
+                    return PokemonDetailScreen(pokemon: pokemon);
+                  },
+                ),
+              ]),
           GoRoute(
             path: '/favorites',
             pageBuilder: (context, state) => const NoTransitionPage(
@@ -71,7 +68,7 @@ GoRouter appRouter(AppRouterRef ref) {
           children: [
             Text(state.error.toString()),
             ElevatedButton(
-              onPressed: () => context.go('/pokedex'), // Todo: Apunta a una ruta válida
+              onPressed: () => context.go('/pokedex'),
               child: const Text('Home'),
             ),
           ],
