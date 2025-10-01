@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // Colores extraídos directamente del Design System en Figma
 class AppColors {
   // Primarios
-  static const Color primary = Color(0xFFE51D20);
+  static const Color primary = Color(0xFF0D47A1);
   static const Color black = Color(0xFF000000);
   static const Color white = Color(0xFFFFFFFF);
 

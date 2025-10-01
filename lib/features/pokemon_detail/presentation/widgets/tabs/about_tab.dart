@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex_app/core/extensions/string_extension.dart';
-import 'package:pokedex_app/core/theme/app_colors.dart';
 import 'package:pokedex_app/core/theme/app_text_styles.dart';
 import 'package:pokedex_app/features/pokemon_detail/domain/entities/pokemon_detail.dart';
+import 'package:pokedex_app/features/pokemon_detail/presentation/widgets/detail_info_box.dart';
 
 class AboutTab extends StatelessWidget {
   final PokemonDetail pokemon;
@@ -11,52 +11,36 @@ class AboutTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildInfoTable(context),
+          // Fila para Peso y Altura
+          Row(
+            children: [
+              DetailInfoBox(
+                label: 'PESO',
+                value: '${pokemon.weight / 10} kg',
+                icon: const Icon(Icons.scale, size: 16),
+              ),
+              const SizedBox(width: 16),
+              DetailInfoBox(
+                label: 'ALTURA',
+                value: '${pokemon.height / 10} m',
+                icon: const Icon(Icons.height, size: 16),
+              ),
+            ],
+          ),
           const SizedBox(height: 24),
+          // Sección de Habilidades
           Text('Habilidades', style: AppTextStyles.sectionTitle),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
           Text(
             pokemon.abilities.map((a) => a.capitalized().replaceAll('-', ' ')).join(', '),
             style: AppTextStyles.description,
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildInfoTable(BuildContext context) {
-    return IntrinsicHeight(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _buildInfoColumn('PESO', '${pokemon.weight / 10} kg', Icons.scale),
-          const SizedBox(width: 16),
-          const VerticalDivider(thickness: 1, color: AppColors.grey_5, indent: 8, endIndent: 8),
-          const SizedBox(width: 16),
-          _buildInfoColumn('ALTURA', '${pokemon.height / 10} m', Icons.height),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildInfoColumn(String label, String value, IconData icon) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 16, color: AppColors.grey_3),
-            const SizedBox(width: 8),
-            Text(value, style: AppTextStyles.infoValue),
-          ],
-        ),
-        const SizedBox(height: 8),
-        Text(label, style: AppTextStyles.infoLabel),
-      ],
     );
   }
 }
